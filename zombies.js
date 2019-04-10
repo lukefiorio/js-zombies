@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Class => Item(name)
  * -----------------------------
@@ -8,6 +10,21 @@
  * @property {string} name
  */
 
+class Item {
+  constructor(name) {
+    this._name = name;
+  }
+
+  get name() {
+    return this._name;
+  }
+
+  set name(name) {
+    if (typeof (name) === 'string') {
+      this._name = name;
+    }
+  }
+}
 
 /**
  * Class => Weapon(name, damage)
@@ -25,6 +42,21 @@
  * @property {number} damage
  */
 
+class Weapon extends Item {
+  constructor(name, damage) {
+    super(name);
+    this._damage = damage;
+  }
+  get damage() {
+    return this._damage;
+  }
+
+  set damage(damage) {
+    if (typeof (damage) === 'number') {
+      this._damage = damage;
+    }
+  }
+}
 
 /**
  * Weapon Extends Item Class
@@ -49,6 +81,23 @@
  * @property {number} energy
  */
 
+class Food extends Item {
+  constructor(name, energy) {
+    super(name);
+    this._energy = energy;
+    console.log(energy);
+  }
+
+  get energy() {
+    return this._energy;
+  }
+
+  set energy(energy) {
+    if (typeof (energy) === 'number') {
+      this._energy = energy;
+    }
+  }
+}
 
 /**
  * Food Extends Item Class
