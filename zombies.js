@@ -12,17 +12,7 @@
 
 class Item {
   constructor(name) {
-    this._name = name;
-  }
-
-  get name() {
-    return this._name;
-  }
-
-  set name(name) {
-    if (typeof (name) === 'string') {
-      this._name = name;
-    }
+    this.name = name;
   }
 }
 
@@ -45,16 +35,7 @@ class Item {
 class Weapon extends Item {
   constructor(name, damage) {
     super(name);
-    this._damage = damage;
-  }
-  get damage() {
-    return this._damage;
-  }
-
-  set damage(damage) {
-    if (typeof (damage) === 'number') {
-      this._damage = damage;
-    }
+    this.damage = damage;
   }
 }
 
@@ -84,18 +65,7 @@ class Weapon extends Item {
 class Food extends Item {
   constructor(name, energy) {
     super(name);
-    this._energy = energy;
-    console.log(energy);
-  }
-
-  get energy() {
-    return this._energy;
-  }
-
-  set energy(energy) {
-    if (typeof (energy) === 'number') {
-      this._energy = energy;
-    }
+    this.energy = energy;
   }
 }
 
@@ -128,6 +98,27 @@ class Food extends Item {
  * @property {method} getMaxHealth         Returns private variable `maxHealth`.
  */
 
+class Player {
+  constructor(name, health, strength, speed) {
+    this.name = name;
+    this.health = health;
+    this.strength = strength;
+    this.speed = speed;
+    this.isAlive = true;
+    this.equipped = false;
+    this._pack = [];
+    this._maxHealth = health;
+  }
+
+  getPack() {
+    return this._pack;
+  }
+
+  getMaxHealth() {
+    return this._maxHealth;
+  }
+}
+
 
 /**
  * Player Class Method => checkPack()
@@ -140,6 +131,10 @@ class Food extends Item {
  *
  * @name checkPack
  */
+
+Player.prototype.checkPack = function () {
+  console.log(this.checkPack);
+}
 
 
 /**
@@ -159,6 +154,17 @@ class Food extends Item {
  * @param {Item/Weapon/Food} item   The item to take.
  * @return {boolean} true/false     Whether player was able to store item in pack.
  */
+
+Player.prototype.takeItem = function (item) {
+  if (this._pack.length < 3) {
+    console.log(`${this.name} stored ${item.name}`);
+    this._pack.push(item);
+    return true;
+  } else {
+    console.log('Pack is full. Item cannot be stored.')
+    return false;
+  }
+}
 
 
 /**
@@ -187,6 +193,18 @@ class Food extends Item {
  * @return {boolean} true/false     Whether player was able to remove item from pack.
  */
 
+Player.prototype.discardItem = function (item) {
+  const index = this._pack.indexOf(item);
+  if (index === -1) {
+    console.log("Item not found. Nothing was discarded.");
+    return false;
+  }
+  if (index >= 0) {
+    this._pack.splice(index, 1);
+    console.log(`${this.name} discarded ${item.name}`);
+    return true;
+  }
+}
 
 /**
  * Player Class Method => equip(itemToEquip)
@@ -208,6 +226,23 @@ class Food extends Item {
  * @param {Weapon} itemToEquip  The weapon item to equip.
  */
 
+Player.prototype.equip = function (itemToEquip) {
+
+  const isWeapon = itemToEquip instanceof (Weapon);
+  const index = this._pack.indexOf(itemToEquip);
+
+  if (isWeapon && index >= 0) {
+    if (this.equipped === false) {
+      this.equipped = itemToEquip;
+      this.discardItem(itemToEquip);
+    } else {
+      let itemToStore = this.equipped;
+      this.equipped = itemToEquip;
+      this.discardItem(itemToEquip);
+      this.takeItem(itemToStore);
+    }
+  }
+}
 
 /**
  * Player Class Method => eat(itemToEat)
@@ -228,6 +263,15 @@ class Food extends Item {
  * @param {Food} itemToEat  The food item to eat.
  */
 
+Player.prototype.eat = function (itemToEat) {
+  const isFood = itemToEat instanceof (Food);
+  const index = this._pack.indexOf(itemToEat);
+
+  if (isFood && index >= 0) {
+    this.health = Math.min(itemToEat.energy + this.health, this.getMaxHealth());
+    this.discardItem(itemToEat);
+  }
+}
 
 /**
  * Player Class Method => useItem(item)
@@ -242,6 +286,17 @@ class Food extends Item {
  * @param {Item/Weapon/Food} item   The item to use.
  */
 
+Player.prototype.useItem = function (item) {
+  const isWeapon = item instanceof (Weapon);
+  const isFood = item instanceof (Food);
+
+  if (isWeapon) {
+    this.equip(item);
+  }
+  if (isFood) {
+    this.eat(item);
+  }
+}
 
 /**
  * Player Class Method => equippedWith()
@@ -256,6 +311,17 @@ class Food extends Item {
  * @name equippedWith
  * @return {string/boolean}   Weapon name or false if nothing is equipped.
  */
+
+Player.prototype.equippedWith = function () {
+
+  if (this.equipped === false) {
+    console.log(`${this.name} has no weapon equipped.`);
+    return false;
+  } else {
+    console.log(`${this.name} equipped with ${this.equipped.name}`);
+    return this.equipped.name;
+  }
+}
 
 
 /**
