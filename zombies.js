@@ -44,8 +44,6 @@ class Weapon extends Item {
  * -----------------------------
  */
 
-
-
 /**
  * Class => Food(name, energy)
  * -----------------------------
@@ -73,8 +71,6 @@ class Food extends Item {
  * Food Extends Item Class
  * -----------------------------
  */
-
-
 
 /**
  * Class => Player(name, health, strength, speed)
@@ -108,14 +104,12 @@ class Player {
     this.equipped = false;
     this._pack = [];
     this._maxHealth = health;
-  }
-
-  getPack() {
-    return this._pack;
-  }
-
-  getMaxHealth() {
-    return this._maxHealth;
+    this.getPack = function() {
+      return this._pack;
+    };
+    this.getMaxHealth = function() {
+      return this._maxHealth;
+    };
   }
 
   checkPack() {
@@ -128,7 +122,7 @@ class Player {
       this._pack.push(item);
       return true;
     } else {
-      console.log('Pack is full. Item cannot be stored.')
+      console.log('Pack is full. Item cannot be stored.');
       return false;
     }
   }
@@ -136,7 +130,7 @@ class Player {
   discardItem(item) {
     const index = this._pack.indexOf(item);
     if (index === -1) {
-      console.log("Item not found. Nothing was discarded.");
+      console.log('Item not found. Nothing was discarded.');
       return false;
     }
     if (index >= 0) {
@@ -147,8 +141,7 @@ class Player {
   }
 
   equip(itemToEquip) {
-
-    const isWeapon = itemToEquip instanceof (Weapon);
+    const isWeapon = itemToEquip instanceof Weapon;
     const index = this._pack.indexOf(itemToEquip);
 
     if (isWeapon && index >= 0) {
@@ -165,7 +158,7 @@ class Player {
   }
 
   eat(itemToEat) {
-    const isFood = itemToEat instanceof (Food);
+    const isFood = itemToEat instanceof Food;
     const index = this._pack.indexOf(itemToEat);
 
     if (isFood && index >= 0) {
@@ -175,8 +168,8 @@ class Player {
   }
 
   useItem(item) {
-    const isWeapon = item instanceof (Weapon);
-    const isFood = item instanceof (Food);
+    const isWeapon = item instanceof Weapon;
+    const isFood = item instanceof Food;
 
     if (isWeapon) {
       this.equip(item);
@@ -195,9 +188,7 @@ class Player {
       return this.equipped.name;
     }
   }
-
 }
-
 
 /**
  * Player Class Method => checkPack()
@@ -210,8 +201,6 @@ class Player {
  *
  * @name checkPack
  */
-
-
 
 /**
  * Player Class Method => takeItem(item)
@@ -230,8 +219,6 @@ class Player {
  * @param {Item/Weapon/Food} item   The item to take.
  * @return {boolean} true/false     Whether player was able to store item in pack.
  */
-
-
 
 /**
  * Player Class Method => discardItem(item)
@@ -259,7 +246,6 @@ class Player {
  * @return {boolean} true/false     Whether player was able to remove item from pack.
  */
 
-
 /**
  * Player Class Method => equip(itemToEquip)
  * -----------------------------
@@ -279,7 +265,6 @@ class Player {
  * @name equip
  * @param {Weapon} itemToEquip  The weapon item to equip.
  */
-
 
 /**
  * Player Class Method => eat(itemToEat)
@@ -313,7 +298,6 @@ class Player {
  * @param {Item/Weapon/Food} item   The item to use.
  */
 
-
 /**
  * Player Class Method => equippedWith()
  * -----------------------------
@@ -327,7 +311,6 @@ class Player {
  * @name equippedWith
  * @return {string/boolean}   Weapon name or false if nothing is equipped.
  */
-
 
 /**
  * Class => Zombie(health, strength, speed)
@@ -355,7 +338,6 @@ class Zombie {
   }
 }
 
-
 /**
  * Class => FastZombie(health, strength, speed)
  * -----------------------------
@@ -381,8 +363,6 @@ class FastZombie extends Zombie {
  * FastZombie Extends Zombie Class
  * -----------------------------
  */
-
-
 
 /**
  * Class => StrongZombie(health, strength, speed)
@@ -410,8 +390,6 @@ class StrongZombie extends Zombie {
  * -----------------------------
  */
 
-
-
 /**
  * Class => RangedZombie(health, strength, speed)
  * -----------------------------
@@ -437,8 +415,6 @@ class RangedZombie extends Zombie {
  * RangedZombie Extends Zombie Class
  * -----------------------------
  */
-
-
 
 /**
  * Class => ExplodingZombie(health, strength, speed)
@@ -466,9 +442,6 @@ class ExplodingZombie extends Zombie {
  * -----------------------------
  */
 
-
-
-
 /**
  * Sample run.
  * Feel free to edit this and check your game logic.
@@ -480,11 +453,9 @@ function runGame() {
   // var tank = new StrongZombie(250, 100, 15);
   // var spitter = new RangedZombie(150, 20, 20);
   // var boomer = new ExplodingZombie(50, 15, 10);
-
   // var shovel = new Weapon("shovel", 15);
   // var sandwich = new Food("sandwich", 30);
   // var chainsaw = new Weapon("chainsaw", 25);
-
   // player.takeItem(shovel);
   // player.takeItem(sandwich);
   // player.takeItem(chainsaw);
@@ -493,16 +464,13 @@ function runGame() {
   // player.checkPack();
   // player.takeItem(shovel);
   // player.checkPack();
-
   // player.equippedWith();
   // player.useItem(chainsaw);
   // player.equippedWith();
   // player.checkPack();
-
   // player.useItem(shovel);
   // player.equippedWith();
   // player.checkPack();
-
   // player.health = 487;
   // console.log("Before health: " + player.health);
   // player.useItem(sandwich);
